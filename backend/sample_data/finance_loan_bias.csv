@@ -1,0 +1,21 @@
+applicant_id,ethnicity,income,credit_score,loan_approved
+1,Caucasian,75000,720,1
+2,African American,72000,710,0
+3,Caucasian,80000,740,1
+4,Hispanic,68000,690,0
+5,Caucasian,55000,650,1
+6,African American,58000,660,0
+7,Caucasian,92000,800,1
+8,Asian,95000,810,1
+9,Hispanic,52000,640,0
+10,African American,88000,780,0
+11,Caucasian,62000,680,1
+12,African American,64000,690,0
+13,Caucasian,71000,705,1
+14,Hispanic,73000,715,0
+15,Asian,69000,700,1
+16,African American,45000,600,0
+17,Caucasian,48000,610,1
+18,Hispanic,82000,760,0
+19,Caucasian,120000,850,1
+20,African American,115000,840,0
