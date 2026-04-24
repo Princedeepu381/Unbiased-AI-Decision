@@ -154,3 +154,9 @@
 .td-bad { color: var(--color-danger); }
 .td-delta.positive { color: var(--color-success); font-weight: 700; }
 .td-delta.negative { color: var(--color-danger); font-weight: 700; }
+ 
+/* Fix for invisible dropdown options in some browsers */
+select option {
+  background-color: #1A1F2E;
+  color: white;
+}
