@@ -58,9 +58,30 @@ async def analyze_bias(
             "privileged_group": privileged_group
         }
         
+        # Case-insensitive column matching
+        all_cols = df.columns.tolist()
+        all_cols_lower = [c.lower() for c in all_cols]
+        
+        def find_col(target):
+            if not target: return None
+            try:
+                idx = all_cols_lower.index(target.lower())
+                return all_cols[idx]
+            except ValueError:
+                return target # Fallback to original
+
+        real_target = find_col(target_col)
+        real_protected = protected_attr # Handled inside compute_metrics if it's a list
+        
         # Compute metrics (handle intersectional list)
         protected_list = protected_attr.split(",") if "," in protected_attr else protected_attr
-        metrics = compute_metrics(df, protected_list, target_col, privileged_group)
+        if isinstance(protected_list, list):
+            protected_list = [find_col(c) for c in protected_list]
+        else:
+            protected_list = find_col(protected_list)
+
+        print(f"DEBUG: Analyzing with Target={real_target}, Protected={protected_list}")
+        metrics = compute_metrics(df, protected_list, real_target, privileged_group)
         
         # Get Gemini Explanation
         explanation = generate_bias_explanation(metrics, protected_attr, privileged_group)
@@ -191,9 +212,17 @@ async def detect_config(file: UploadFile = File(...)):
         prot_fallback = next((c for c in all_cols if c.lower() in likely_protected), all_cols[0])
         target_fallback = next((c for c in all_cols if c.lower() in likely_target), all_cols[-1])
 
+        # Case-insensitive validation for suggestions
+        def get_real_col(suggested):
+            if not suggested: return None
+            for c in all_cols:
+                if c.lower() == suggested.lower():
+                    return c
+            return None
+
         final_suggestion = {
-            "protected_attr": suggestion.get("protected_attr") if suggestion.get("protected_attr") in all_cols else prot_fallback,
-            "target_col": suggestion.get("target_col") if suggestion.get("target_col") in all_cols else target_fallback,
+            "protected_attr": get_real_col(suggestion.get("protected_attr")) or prot_fallback,
+            "target_col": get_real_col(suggestion.get("target_col")) or target_fallback,
             "privileged_group": suggestion.get("privileged_group")
         }
         
