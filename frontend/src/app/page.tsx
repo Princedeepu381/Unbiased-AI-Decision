@@ -123,6 +123,8 @@ export default function Home() {
     if (e.target.files && e.target.files.length > 0) {
       const selectedFile = e.target.files[0];
       setFile(selectedFile);
+      setResults(null);
+      setMitigationResults(null);
       setError(null);
 
       const reader = new FileReader();
