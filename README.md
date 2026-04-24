@@ -3,24 +3,34 @@
 [![Next.js](https://img.shields.io/badge/Next.js-14-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-v0.100+-009688?style=for-the-badge&logo=fastapi)](https://fastapi.tiangolo.com/)
 [![Gemini AI](https://img.shields.io/badge/Google_Gemini-1.5_Flash-4285F4?style=for-the-badge&logo=google-gemini)](https://deepmind.google/technologies/gemini/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
+[![Google Cloud](https://img.shields.io/badge/Google_Cloud-Run-4285F4?style=for-the-badge&logo=google-cloud)](https://cloud.google.com/run)
 
 > **Aegis One** is a high-fidelity, end-to-end platform built for the **Open Innovation Hackathon 2026**. It leverages Google's Gemini AI to provide transparent, explainable, and actionable AI fairness auditing for critical decision-making systems.
 
-### [🚀 Launch Live Demo](https://aegis-one-frontend-1093708031357.us-central1.run.app)
+### [🚀 Launch Live Demo](https://aegis-one-hdnhim3gra-uc.a.run.app)
 
 ---
 
-## 🌟 Key Features
+## 📄 Problem Statement
 
-- **🔍 Multi-Metric Bias Detection**: Analyze datasets using Disparate Impact Ratio, Demographic Parity Difference, Equalized Odds, and more.
-- **🤖 Gemini Governance Trace**: Real-time AI explanations that translate complex mathematical fairness metrics into plain-English insights.
-- **🛡️ Automated Mitigation**: Apply reweighing and threshold optimization algorithms with a single click.
-- **📄 Audit-Ready Reporting**: Generate comprehensive PDF audit reports containing metric breakdowns and AI-generated remediation strategies.
-- **🌌 Cinematic UI**: A high-performance, cosmic-themed dashboard built with Next.js and Tailwind CSS v4.
+In modern decision-making systems (hiring, lending, healthcare), AI models often inherit and amplify historical human biases. Traditional fairness tools are mathematically complex and inaccessible to non-technical auditors. This lack of **Explainable Fairness** leads to "black-box" decisions that can inadvertently discriminate against protected groups based on race, gender, or age.
 
-## 🏗️ Architecture
+## 🛡️ Solution Overview
 
+**Aegis One** bridges the gap between complex fairness mathematics and human governance. It provides a cinematic dashboard that allows auditors to:
+1. **Detect**: Upload datasets to identify bias across multiple statistical metrics (DIR, DPD).
+2. **Explain**: Use **Google Gemini 1.5 Flash** to translate mathematical disparities into plain-English "Governance Traces."
+3. **Mitigate**: Apply industry-standard reweighing algorithms to balance outcomes with a single click.
+
+## 🏗️ Architecture & Logic
+
+### Core Logic
+The application follows a **Pre-Processing Mitigation** approach:
+- **Bias Detection**: Uses `Fairlearn` and `AIF360` to calculate Disparate Impact Ratio (DIR) and Demographic Parity Difference (DPD).
+- **Gemini Intelligence**: The backend sends raw metric data to Gemini 1.5 Flash. The AI analyzes the delta between privileged and unprivileged groups and generates a remediation strategy.
+- **Dynamic Mitigation**: If bias is detected (e.g., DIR < 0.8), the system recalculates sample weights to ensure the next model training iteration is mathematically fair.
+
+### System Flow
 ```mermaid
 graph TD
     A[User/Auditor] -->|CSV Dataset| B(Next.js Frontend)
@@ -37,48 +47,33 @@ graph TD
 
 - **Frontend**: Next.js 14, TypeScript, Tailwind CSS v4, Recharts, Framer Motion.
 - **Backend**: Python FastAPI, Fairlearn, AIF360, Pandas.
-- **AI/ML**: Google Gemini 1.5 Flash, Google Cloud Run.
-- **DevOps**: Docker, Google Cloud Build.
+- **AI/ML**: Google Gemini 1.5 Flash.
+- **Infrastructure**: Google Cloud Run, Docker.
+
+## 📋 Assumptions & Constraints
+
+- **Dataset Format**: Assumes CSV input with identifiable categorical protected attributes.
+- **Metric Thresholds**: Uses industry-standard "80% Rule" (DIR >= 0.8) for initial bias flagging.
+- **Mitigation**: Focuses on *Reweighing* (pre-processing) as it preserves the original feature space for better explainability.
 
 ## 🚀 Getting Started
 
-### Prerequisites
-
-- Python 3.9+
-- Node.js 18+
-- [Google Gemini API Key](https://aistudio.google.com/)
-
 ### 1. Backend Setup
-
 ```bash
 cd backend
 python -m venv venv
-source venv/bin/activate # or venv\Scripts\activate on Windows
+source venv/bin/activate
 pip install -r requirements.txt
-# Create .env and add GEMINI_API_KEY=your_key_here
-uvicorn main:app --reload --port 8000
+# Add GEMINI_API_KEY to .env
+uvicorn main:app --reload
 ```
 
 ### 2. Frontend Setup
-
 ```bash
 cd frontend
 npm install
-# Ensure .env.local has NEXT_PUBLIC_API_URL=http://localhost:8000
 npm run dev
 ```
-
-Visit `http://localhost:3000` to see the dashboard in action!
-
-## 📈 Success Metrics
-
-- **Performance**: < 5s End-to-End Analysis Latency.
-- **Reliability**: ±2% Detection Accuracy vs. Industry Baselines.
-- **Impact**: ≥20% Bias Reduction with minimal accuracy trade-off.
-
-## 📜 License
-
-Distributed under the MIT License. See `LICENSE` for more information.
 
 ---
 

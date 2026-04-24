@@ -334,8 +334,8 @@ export default function Home() {
       {/* Navigation */}
       <nav className="fixed top-0 left-0 right-0 z-[100] border-b border-white/10 bg-[#0A0F1A]/85 backdrop-blur-xl">
         <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#00F0FF] to-[#8A2BE2] flex items-center justify-center shadow-lg shadow-[#00F0FF]/20">
+          <div className="flex items-center gap-3" aria-label="Aegis One Logo">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#00F0FF] to-[#8A2BE2] flex items-center justify-center shadow-lg shadow-[#00F0FF]/20" aria-hidden="true">
               <ShieldAlert className="text-[#0A0F1A] w-6 h-6" />
             </div>
             <span className="text-xl font-bold tracking-tight">Aegis <span className="text-[#00F0FF]">One</span></span>
@@ -541,11 +541,15 @@ export default function Home() {
                   className={`border-2 border-dashed rounded-2xl p-8 flex flex-col items-center justify-center text-center transition cursor-pointer mb-8 
                     ${file ? "border-[#00E5A0]/50 bg-[#00E5A0]/5" : "border-white/10 hover:border-[#00F0FF]/50 bg-white/5"}`}
                   onClick={() => fileInputRef.current?.click()}
+                  role="button"
+                  aria-label="Upload CSV Dataset"
+                  tabIndex={0}
+                  onKeyDown={(e) => e.key === 'Enter' && fileInputRef.current?.click()}
                 >
-                  <UploadCloud className={`w-10 h-10 mb-4 ${file ? "text-[#00E5A0]" : "text-[#00F0FF]"}`} />
+                  <UploadCloud className={`w-10 h-10 mb-4 ${file ? "text-[#00E5A0]" : "text-[#00F0FF]"}`} aria-hidden="true" />
                   <p className="font-bold text-sm mb-1">{file ? file.name : "Select CSV Dataset"}</p>
                   <p className="text-[10px] text-[#F8F9FA]/40 font-mono">Max size: 50MB · Required: Gender/Race → Hired</p>
-                  <input type="file" accept=".csv" className="hidden" ref={fileInputRef} onChange={handleFileChange} />
+                  <input type="file" accept=".csv" className="hidden" ref={fileInputRef} onChange={handleFileChange} aria-hidden="true" />
                 </div>
 
                 <div className="space-y-5">
@@ -604,8 +608,9 @@ export default function Home() {
                   onClick={handleAnalyze}
                   disabled={analyzing || !file || !protectedAttr || !targetCol || !privilegedGroup}
                   className="w-full btn-primary justify-center mt-8 py-4 disabled:opacity-50"
+                  aria-label={analyzing ? "Analyzing dataset" : "Analyze dataset for bias"}
                 >
-                  {analyzing ? <><span className="spinner"></span> Analyzing...</> : <><Play className="w-5 h-5" /> Analyze for Bias</>}
+                  {analyzing ? <><span className="spinner" aria-hidden="true"></span> Analyzing...</> : <><Play className="w-5 h-5" aria-hidden="true" /> Analyze for Bias</>}
                 </button>
               </div>
 

@@ -10,7 +10,7 @@ RUN npm install
 # Copy source and build
 COPY . .
 # Use the real live backend URL for the build
-ENV NEXT_PUBLIC_API_URL=https://aegis-one-backend-1093708031357.us-central1.run.app
+ENV NEXT_PUBLIC_API_URL=https://aegis-one-backend-hdnhim3gra-uc.a.run.app
 RUN npm run build
 
 # Production image
