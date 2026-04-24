@@ -9,14 +9,28 @@ def compute_metrics(df: pd.DataFrame, protected_cols, target_col: str, privilege
     """
     Computes fairness metrics. protected_cols can be a str or list.
     """
+    # 0. Helper for case-insensitive column access
+    all_cols = df.columns.tolist()
+    all_cols_lower = [c.lower() for c in all_cols]
+    
+    def get_real_col(c):
+        if not c or not isinstance(c, str): return c
+        try:
+            return all_cols[all_cols_lower.index(c.lower())]
+        except ValueError:
+            raise KeyError(f"Column '{c}' not found in dataset.")
+
     # 1. Handle intersectional analysis
     if isinstance(protected_cols, list) and len(protected_cols) > 1:
         protected_col = "intersectional_group"
-        df[protected_col] = df[protected_cols].astype(str).agg('_'.join, axis=1)
+        real_cols = [get_real_col(c) for c in protected_cols]
+        df[protected_col] = df[real_cols].astype(str).agg('_'.join, axis=1)
     else:
-        protected_col = protected_cols[0] if isinstance(protected_cols, list) else protected_cols
+        raw_col = protected_cols[0] if isinstance(protected_cols, list) else protected_cols
+        protected_col = get_real_col(raw_col)
 
     # 2. Base Rates
+    target_col = get_real_col(target_col)
     total = len(df)
     
     # Standardize strings for comparison
