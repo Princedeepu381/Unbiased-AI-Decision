@@ -7,7 +7,7 @@
 
 > **Aegis One** is a high-fidelity, end-to-end platform built for the **Open Innovation Hackathon 2026**. It leverages Google's Gemini AI to provide transparent, explainable, and actionable AI fairness auditing for critical decision-making systems.
 
-### [🚀 Launch Live Demo](https://aegis-one-hdnhim3gra-uc.a.run.app)
+### [🚀 Launch Live Demo](https://unbiased-ai-decision-iy6j.vercel.app/)
 
 ---
 
